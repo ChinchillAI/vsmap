@@ -1,0 +1,194 @@
+use std::collections::HashMap;
+
+use crate::{
+    locations::Location,
+    measurements::{Relative, Vector},
+};
+
+pub fn solve(raw: HashMap<String, Location>) -> HashMap<String, Location> {
+    let mut unsolved_ids: Vec<String> = raw.keys().cloned().collect();
+    let mut solved = HashMap::<String, Location>::new();
+
+    let mut progress = true;
+    while progress {
+        progress = false;
+
+        for id in &unsolved_ids {
+            let Some(location) = raw.get(id) else {
+                panic!("Unsolved id doesn't exist")
+            };
+
+            if let Some(absolute) = location.get_absolute() {
+                // Forward pass
+                progress = true;
+                solved.insert(id.clone(), location.clone());
+
+                for (oid, relative) in location.get_pos() {
+                    if !solved.contains_key(&oid) {
+                        let Some(olocation) = raw.get(&oid) else {
+                            panic!("Undefined relative")
+                        };
+                        match relative {
+                            Relative::Vector(vector) => {
+                                let mut nlocation = olocation.clone();
+                                nlocation.set_absolute(absolute + vector);
+                                solved.insert(oid.clone(), nlocation.clone());
+                                println!("solved {oid} via forward vector");
+                            }
+                            Relative::Distance(_distance) => {}
+                            Relative::Gradient(gradient) => {
+                                let mut nlocation = olocation.clone();
+                                let extrapolation = Vector {
+                                    x: (gradient.east.pow(2) - gradient.west.pow(2))
+                                        / (4 * gradient.step),
+                                    z: (gradient.north.pow(2) - gradient.south.pow(2))
+                                        / (4 * gradient.step),
+                                };
+                                nlocation.set_absolute(absolute - extrapolation);
+                                solved.insert(oid.clone(), nlocation.clone());
+                                println!("solved {oid} via forward gradient");
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Backward pass, solve undetermined points via traingulation
+                let mut known_distance: Option<(String, Relative, Location)> = None;
+                for (oid, relative) in location.get_pos() {
+                    if let Some(olocation) = solved.get(&oid) {
+                        match relative {
+                            Relative::Vector(vector) => {
+                                let Some(absolute) = olocation.get_absolute() else {
+                                    panic!("something in solved had no abs")
+                                };
+
+                                let mut nlocation = location.clone();
+                                nlocation.set_absolute(absolute - vector);
+                                solved.insert(id.clone(), nlocation);
+                                progress = true;
+                                println!("solved {id} via backwards vector");
+                            }
+                            Relative::Distance(_distance) => match known_distance.clone() {
+                                Some((_koid, Relative::Distance(_kdistance), _kolocation)) => {
+                                    println!("solved {id} via traingulation with guessing");
+                                }
+                                Some((_koid, Relative::Gradient(_kgradient), _kolocation)) => {
+                                    println!("solved {id} via triangulation with gradient");
+                                }
+                                None => {
+                                    known_distance = Some((oid, relative, olocation.clone()));
+                                }
+                                _ => {
+                                    panic!("bad known distance");
+                                }
+                            },
+                            Relative::Gradient(gradient) => {
+                                match known_distance.clone() {
+                                    Some((_koid, Relative::Distance(_kdistance), _kolocation)) => {
+                                        println!("solved {id} via traingulation with gradient");
+                                    }
+                                    Some((_koid, Relative::Gradient(kgradient), kolocation)) => {
+                                        // https://stackoverflow.com/questions/3349125/circle-circle-intersection-points
+                                        // p0 - first known circle center
+                                        let Some(p0) = kolocation.get_absolute() else {
+                                            panic!("no abs")
+                                        };
+                                        // p1 - second known circle center
+                                        let Some(p1) = olocation.get_absolute() else {
+                                            panic!("no abs")
+                                        };
+
+                                        // distance from p0 to p1
+                                        let d = (p1 - p0).magnitude();
+
+                                        // distance from p0 to p2
+                                        let a = ((kgradient.center.pow(2) as f32)
+                                            - (gradient.center.pow(2) as f32)
+                                            + d.powi(2))
+                                            / (2. * d);
+                                        // distance from p2 to p1
+                                        let _b = d - a;
+
+                                        // p2 - the point on the chord of the intersection and the
+                                        // vector between p0 and p1
+                                        let p2 = p0
+                                            + (Vector {
+                                                x: a as i32,
+                                                z: a as i32,
+                                            } * (p1 - p0))
+                                                / Vector {
+                                                    x: d as i32,
+                                                    z: d as i32,
+                                                };
+
+                                        // height from p2 to the actual intersection points
+                                        let h =
+                                            ((kgradient.center.pow(2) as f32) - a.powi(2)).sqrt();
+
+                                        let x3a = (p2.x as f32) + (h * ((p1.z - p0.z) as f32) / d);
+                                        let z3a = (p2.z as f32) - (h * ((p1.x - p0.x) as f32) / d);
+
+                                        let x3b = (p2.x as f32) - (h * ((p1.z - p0.z) as f32) / d);
+                                        let z3b = (p2.z as f32) + (h * ((p1.x - p0.x) as f32) / d);
+
+                                        println!("solved {id} via traingulation with gradient");
+                                        println!("interesection 1 at {x3a}, {z3a}");
+                                        println!("interesection 2 at {x3b}, {z3b}");
+
+                                        let extrapolation = Vector {
+                                            x: -(gradient.east.pow(2) - gradient.west.pow(2))
+                                                / (4 * gradient.step),
+                                            z: -(gradient.north.pow(2) - gradient.south.pow(2))
+                                                / (4 * gradient.step),
+                                        };
+                                        let estimate = p1 - extrapolation;
+
+                                        // 2. Determine which intersection is closer to the estimate
+                                        let dist_a = ((x3a - estimate.x as f32).powi(2)
+                                            + (z3a - estimate.z as f32).powi(2))
+                                        .sqrt();
+                                        let dist_b = ((x3b - estimate.x as f32).powi(2)
+                                            + (z3b - estimate.z as f32).powi(2))
+                                        .sqrt();
+
+                                        let final_pos = if dist_a < dist_b {
+                                            Vector {
+                                                x: x3a.round() as i32,
+                                                z: z3a.round() as i32,
+                                            }
+                                        } else {
+                                            Vector {
+                                                x: x3b.round() as i32,
+                                                z: z3b.round() as i32,
+                                            }
+                                        };
+
+                                        // 3. Update the solved map
+                                        let mut nlocation = location.clone();
+                                        nlocation.set_absolute(final_pos);
+                                        solved.insert(id.clone(), nlocation);
+                                        progress = true;
+
+                                        println!(
+                                            "  Chosen intersection: {}, {}",
+                                            final_pos.x, final_pos.z
+                                        );
+                                    }
+                                    None => {
+                                        known_distance = Some((oid, relative, olocation.clone()));
+                                    }
+                                    _ => {
+                                        panic!("bad known distance");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        unsolved_ids.retain(|id| !solved.contains_key(id));
+    }
+
+    solved
+}

@@ -1,0 +1,226 @@
+[[ruin]]
+name = "Archive"
+pos.absolute = [0, 0]
+pos.lazaret = [9241, 9245, 9238, 9238, 9245, 5]
+
+[[ruin]]
+name = "Lazaret"
+
+[[translocator]]
+name = "Translocator"
+enter.archive = [5469, 5464, 5473, 5466, 5471, 5]
+enter.lazaret = [9471, 9472, 9470, 9466, 9476, 5]
+exit.sasha = [ 0, -50 ]
+
+[[translocator]]
+name = "Translocator2"
+enter.adachi = [ -50, 0 ]
+exit.onyx = [ -50, 0 ]
+
+[[ruin]]
+name = "Rabbit-Lucky"
+pos.tybal = [ -50, -50 ]
+
+[[ruin]]
+name = "Rabbit-Villa"
+pos.archive = [2916, 2911, 2920, 2918, 2913, 5]
+pos.lazaret = [6562, 6565, 6559, 6558, 6555, 5]
+
+[[ruin]]
+name = "Ruined Chruch"
+pos.archive = [7141, 7139, 7144, 7137, 7146, 5]
+pos.lazaret = [13612, 13613, 13611, 13607, 13617, 5]
+
+[[ruin]]
+name = "Bauxite"
+pos.archive = [10838, 10837, 10840, 10833, 10843, 5]
+pos.lazaret = [17810, 17811, 17809, 17805, 17814, 5]
+
+[[trader]]
+name = "Ahanu"
+facing = "North"
+trade = "Clothing"
+seal = "Door"
+bed = "Hay"
+pos.archive = [ 8045, 8042, 8048, 8041, 8050, 5]
+pos.lazaret = [ 13902, 13903, 13901, 13897, 13907, 5]
+
+[[trader]]
+name = "Bounder"
+facing = "East"
+trade = "Agriculture"
+seal = "Door"
+bed = "Hay"
+pos.archive = [10603, 10602, 10604, 10598, 10608, 5]
+pos.lazaret = [17610, 17611, 17609, 17605, 17616, 5]
+
+[[trader]]
+name = "Marco"
+facing = "North"
+trade = "Luxuries"
+seal = "Gate"
+bed = "Wooden"
+pos.archive = [9145, 9143, 9147, 9140, 9149, 5]
+pos.lazaret = [15703, 15704, 15702, 15698, 15708, 5]
+
+[[trader]]
+name = "Tybal"
+facing = "North"
+trade = "SurvivalGoods"
+seal = "Door"
+bed = "Hay"
+pos.archive = [3260, 3257, 3264, 3256, 3264, 5]
+pos.lazaret = [10102, 10104, 10100, 10097, 10106, 5]
+
+
+[[trader]]
+name = "Mostafa"
+facing = "North"
+trade = "Clothing"
+seal = "Gate"
+bed = "Wooden"
+pos.archive = [3645, 3641, 3649, 3642, 3648, 5]
+pos.lazaret = [9768, 9770, 9766, 9763, 9773, 5]
+
+
+[[trader]]
+name = "Ephram"
+facing = "South"
+trade = "TreasureHunter"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [4736, 4732, 4741, 4734, 4739, 5]
+pos.lazaret = [9447, 9448, 9446, 9442, 9452, 5]
+
+
+[[trader]]
+name = "Rigby"
+facing = "East"
+trade = "Luxuries"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [3234, 3231, 3236, 3229, 3238, 5]
+pos.lazaret = [10642, 10644, 10640, 10637, 10647, 5]
+
+
+[[trader]]
+name = "Yoskolo"
+facing = "North"
+trade = "Agriculture"
+seal = "Gate"
+bed = "Wooden"
+pos.archive = [2344, 2341, 2346, 2339, 2348, 5]
+pos.lazaret = [10325, 10328, 10323, 10321, 10330, 5]
+
+
+[[trader]]
+name = "Wilding"
+facing = "West"
+trade = "SurvivalGoods"
+seal = "Gate"
+bed = "None"
+pos.archive = [1726, 1724, 1727, 1721, 1730, 5]
+pos.lazaret = [10186, 10189, 10184, 10183, 10191, 5]
+
+
+[[trader]]
+name = "Adachi1"
+facing = "West"
+trade = "Artisan"
+seal = "Door"
+bed = "Hay"
+pos.archive = [563, 564, 563, 558, 568, 5]
+pos.lazaret = [9704, 9707, 9700, 9700, 9707, 5]
+
+
+[[trader]]
+name = "Tinker"
+facing = "East"
+trade = "BuildingMaterials"
+seal = "Gate"
+bed = "Wooden"
+pos.archive = [352, 356, 347, 354, 349, 5]
+pos.lazaret = [9302, 9306, 9299, 9299, 9306, 5]
+
+
+[[trader]]
+name = "Onyx"
+facing = "South"
+trade = "BuildingMaterials"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [8443, 8442, 8443, 8438, 8448, 5]
+pos.lazaret = [16095, 16096, 16093, 16090, 16099, 5]
+
+[[trader]]
+name = "Sasha1"
+facing = "North"
+trade = "BuildingMaterials"
+seal = "Door"
+bed = "Hay"
+pos.archive = [6986, 6985, 6986, 6981, 6991, 5]
+pos.lazaret = [14904, 14906, 14902, 14899, 14909, 5]
+
+[[trader]]
+name = "Mostafa"
+facing = "East"
+trade = "Clothing"
+seal = "Door"
+bed = "Hay"
+pos.archive = [2692, 2688, 2696, 2689, 2695, 5]
+pos.lazaret = [9382, 9384, 9380, 9377, 9387, 5]
+
+[[trader]]
+name = "Adachi"
+facing = "North"
+trade = "Artisan"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [3570, 3566, 3573, 3566, 3573, 5]
+pos.lazaret = [10383, 10385, 10381, 10378, 10388, 5]
+
+[[trader]]
+name = "Sasha"
+facing = "East"
+trade = "BuildingMaterials"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [9903, 9899, 9908, 9906, 9901, 5]
+pos.lazaret = [2872, 2869, 2877, 2869, 2875, 5]
+
+[[trader]]
+name = "Wilt"
+facing = "East"
+trade = "Furniture"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [2987, 2982, 2991, 2989, 2984, 5]
+pos.lazaret = [6637, 6640, 6634, 6633, 6641, 5]
+
+
+[[trader]]
+name = "Kino"
+facing = "West"
+trade = "Clothing"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [2662, 2657, 2667, 2661, 2664, 5]
+pos.lazaret = [8550, 8552, 8548, 8546, 8555, 5]
+
+[[trader]]
+name = "Loon"
+facing = "West"
+trade = "SurvivalGoods"
+seal = "Gate"
+bed = "None"
+pos.archive = [4195, 4192, 4198, 4192, 4199, 5]
+pos.lazaret = [10592, 10593, 10590, 10587, 10597, 5]
+
+[[trader]]
+name = "Hubert"
+facing = "East"
+trade = "SurvivalGoods"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [ 5279, 5277, 5281, 5275, 5283, 5]
+pos.lazaret = [ 12132, 12125, 12122, 12119, 12128, 5]
