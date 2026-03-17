@@ -73,6 +73,7 @@
           lib,
           config,
           pkgs,
+          ...
         }:
         let
           cfg = config.services.vsmap;
