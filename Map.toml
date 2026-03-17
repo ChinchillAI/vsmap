@@ -6,6 +6,15 @@ pos.lazaret = [9241, 9245, 9238, 9238, 9245, 5]
 [[ruin]]
 name = "Lazaret"
 
+[[trader]]
+name = "Adachi-new"
+facing = "North"
+trade = "Clothing"
+seal = "Door"
+bed = "Hay"
+pos.archive = [10233, 10232, 10233, 10228, 10237, 5 ]
+pos.lazaret = [17665, 17666, 17663, 17660, 17670, 5 ] 
+
 [[translocator]]
 name = "Translocator"
 enter.archive = [5469, 5464, 5473, 5466, 5471, 5]

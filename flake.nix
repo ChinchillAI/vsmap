@@ -1,7 +1,7 @@
 {
   inputs.nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
   outputs =
-    { nixpkgs, ... }:
+    { self, nixpkgs, ... }:
     let
       pkgs = nixpkgs.legacyPackages.x86_64-linux;
       macroquad-deps = with pkgs; [
@@ -67,6 +67,26 @@
           '';
         };
       };
+
+      nixosModules.default =
+        {
+          lib,
+          config,
+          pkgs,
+        }:
+        let
+          cfg = config.services.vsmap;
+        in
+        {
+          options.services.vsmap.enable = lib.mkEnableOption "Enables VSMap WASM server";
+
+          config = lib.mkIf cfg.enable {
+            services.nginx.virtualHosts."vsmap" = {
+              root = "${self.packages.x86_64-linux.vsmap-web}";
+              enableACME = true;
+            };
+          };
+        };
 
       devShells.x86_64-linux.default = pkgs.mkShell {
         packages =
