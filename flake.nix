@@ -82,7 +82,8 @@
           options.services.vsmap.enable = lib.mkEnableOption "Enables VSMap WASM server";
 
           config = lib.mkIf cfg.enable {
-            services.nginx.virtualHosts."vsmap" = {
+            services.nginx.virtualHosts."makoto.chinchill.ing" = {
+              addSSL = true;
               root = "${self.packages.x86_64-linux.vsmap-web}";
               enableACME = true;
             };
