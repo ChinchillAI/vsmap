@@ -4,7 +4,7 @@ use clap::{Parser, Subcommand};
 use notify::{Event, RecursiveMode, Watcher};
 use std::process::Command;
 use std::time::Duration;
-use tower_http::{services::ServeDir, compression::CompressionLayer};
+use tower_http::{compression::CompressionLayer, services::ServeDir};
 use tower_livereload::LiveReloadLayer;
 
 #[derive(Parser)]
@@ -54,8 +54,7 @@ fn build_wasm(dev: bool) -> Result<()> {
 
     if !dev {
         //cmd.arg("--release");
-        cmd.arg("--profile")
-            .arg("wasm-release");
+        cmd.arg("--profile").arg("wasm-release");
     }
 
     let status = cmd.status().context("Failed to run cargo build")?;
@@ -77,10 +76,7 @@ fn build_wasm(dev: bool) -> Result<()> {
     let wasm_dest = build_dir.join("vsmap-web.wasm");
 
     let mut opt_cmd = Command::new("wasm-opt");
-    opt_cmd.arg(wasm_src)
-        .arg("-o")
-        .arg(wasm_dest)
-        .arg("-Oz");
+    opt_cmd.arg(wasm_src).arg("-o").arg(wasm_dest).arg("-Oz");
 
     let opt_status = opt_cmd.status().context("Failed to run wasm-opt")?;
     if !opt_status.success() {
@@ -126,10 +122,19 @@ async fn run_dev_server() -> Result<()> {
     })?;
 
     let workspace_root = std::env::current_dir()?;
-    watcher.watch(&workspace_root.join("crates/web/src"), RecursiveMode::Recursive)?;
-    watcher.watch(&workspace_root.join("crates/web/html"), RecursiveMode::Recursive)?;
-    watcher.watch(&workspace_root.join("crates/lib/src"), RecursiveMode::Recursive)?;
-    
+    watcher.watch(
+        &workspace_root.join("crates/web/src"),
+        RecursiveMode::Recursive,
+    )?;
+    watcher.watch(
+        &workspace_root.join("crates/web/html"),
+        RecursiveMode::Recursive,
+    )?;
+    watcher.watch(
+        &workspace_root.join("crates/lib/src"),
+        RecursiveMode::Recursive,
+    )?;
+
     // Spawn a task to handle rebuilds
     tokio::spawn(async move {
         loop {
@@ -158,7 +163,7 @@ async fn run_dev_server() -> Result<()> {
 
     let addr = tokio::net::TcpListener::bind("127.0.0.1:8080").await?;
     println!("Development server listening on http://127.0.0.1:8080");
-    
+
     axum::serve(addr, app).await?;
 
     Ok(())
