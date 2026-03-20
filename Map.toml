@@ -4,6 +4,11 @@ pos.absolute = [0, 0]
 pos.lazaret = [9241, 9245, 9238, 9238, 9245, 5]
 
 [[ruin]]
+name = "new-translocator"
+pos.archive = [ 7314, 7315, 7313, 7309, 7319, 5]
+pos.lazaret = [16114, 16116, 16111, 16109, 16118, 5]
+
+[[ruin]]
 name = "Lazaret"
 
 [[trader]]
