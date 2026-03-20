@@ -1,6 +1,9 @@
 use macroquad::prelude::*;
 
-use vsmap_lib::{locations::{Location, Translocator}, map::Map, measurements::Vector};
+use vsmap_lib::{
+    locations::{Location, Translocator},
+    map::Map,
+};
 
 struct MarkerStyle {
     rect_size: f32,
@@ -21,6 +24,8 @@ struct Viewer {
     selected: Option<(String, Location)>,
 }
 
+
+
 impl Default for Viewer {
     fn default() -> Self {
         let map: Map =
@@ -28,7 +33,7 @@ impl Default for Viewer {
         let target = if let Some(Some(start_location)) =
             map.locations.get("rabbit-lucky").map(|l| l.get_absolute())
         {
-            vec2(start_location.x as f32, start_location.z as f32)
+            vec2(start_location.x as f32, start_location.y as f32)
         } else {
             Vec2::ZERO
         };
@@ -48,12 +53,14 @@ impl Default for Viewer {
 
 impl Viewer {
     fn camera_from_target(target: Vec2, w: f32, h: f32) -> Camera2D {
-        Camera2D::from_display_rect(Rect {
+        let mut camera = Camera2D::from_display_rect(Rect {
             x: target.x - (w / 2.0),
             y: target.y - (h / 2.0),
             w: w,
             h: h,
-        })
+        });
+        //camera.render_target = Some(render_target_msaa(w as u32, h as u32));
+        camera
     }
 
     fn handle_input(&mut self) {
@@ -83,9 +90,9 @@ impl Viewer {
         }
     }
 
-    fn draw_standard_marker(&self, id: &str, pos: Vector, style: MarkerStyle) {
+    fn draw_standard_marker(&self, id: &str, pos: IVec2, style: MarkerStyle) {
         let x = pos.x as f32;
-        let y = pos.z as f32;
+        let y = pos.y as f32;
 
         let world_rect_size = style.rect_size / self.zoom;
         let world_text_scale = style.text_size / 64.0 / self.zoom;
@@ -99,10 +106,11 @@ impl Viewer {
             style.color,
         );
 
+        let center = get_text_center(id, None, 64, -world_text_scale, 0.0);
         draw_text_ex(
             id,
-            x - world_rect_size / 2.0,
-            y + world_rect_size / 2.0 + world_padding,
+            x + center.x,
+            y + (world_rect_size / 2.0) + world_padding,
             TextParams {
                 font_size: 64,
                 font_scale: -world_text_scale, // Flip vertically
@@ -127,7 +135,11 @@ impl Viewer {
         for (id, location) in &self.map.locations {
             if let Some(pos) = location.get_absolute() {
                 let x = pos.x as f32;
-                let y = pos.z as f32;
+                let y = pos.y as f32;
+                let world_rect_size = 20.0 / self.zoom;
+                let world_text_scale = 16.0 / 64.0 / self.zoom;
+                let world_padding = 5.0 / self.zoom;
+
                 match location {
                     Location::Ruin(r) => {
                         self.draw_standard_marker(
@@ -141,18 +153,46 @@ impl Viewer {
                             },
                         );
                     }
-                    Location::Translocator(
-                        Translocator { 
-                            side: vsmap_lib::locations::TranslocatorSide::Enter,
-                            name: _,
-                            pos: _,
-                            other_id
-                        }
-                    ) => {
+                    Location::Translocator(Translocator {
+                        side: vsmap_lib::locations::TranslocatorSide::Enter,
+                        name: _,
+                        pos: _,
+                        other_id,
+                    }) => {
                         let other = self.map.locations.get(other_id).unwrap();
                         let other_pos = other.get_absolute().unwrap();
+                        let other_x = other_pos.x as f32;
+                        let other_y = other_pos.y as f32;
+                        let mut rotation = (other_y - y).atan2(other_x - x);
+                        if other_x - x < 0.0 {
+                            rotation += std::f32::consts::PI;
+                        }
 
-                        draw_line(x, y, other_pos.x as f32, other_pos.z as f32, 5.0 / self.zoom, PURPLE);
+                        draw_line(x, y, other_x, other_y, 5.0 / self.zoom, PURPLE);
+                        let text = "TRANSLOCATOR";
+                        let center = get_text_center(text, None, 64, -world_text_scale, 0.0);
+
+                        let dir = (other_pos - pos).as_vec2().normalize();
+                        let normal = Vec2::new(-dir.y, dir.x);
+                        let mut offset = (normal * -5.0 / self.zoom) - (dir * center.x);
+                        if other_x - x > 0.0 {
+                            offset = -offset;
+                        }
+
+                        println!("{offset}");
+                        draw_text_ex(
+                            "TRANSLOCATOR",
+                            (other_x - x) / 2.0 + x + offset.x,
+                            (other_y - y) / 2.0 + y + offset.y,
+                            TextParams {
+                                font_size: 64,
+                                font_scale: -world_text_scale, // Flip vertically
+                                font_scale_aspect: -1.0, // Correct horizontal flip caused by vertical flip
+                                color: PURPLE,
+                                rotation,
+                                ..Default::default()
+                            },
+                        );
 
                         self.draw_standard_marker(
                             "",
@@ -165,24 +205,23 @@ impl Viewer {
                             },
                         );
 
-                        self.draw_standard_marker("", other_pos, MarkerStyle {
+                        self.draw_standard_marker(
+                            "",
+                            other_pos,
+                            MarkerStyle {
                                 rect_size: 20.0,
                                 padding: 5.0,
                                 text_size: 16.0,
                                 color: PURPLE,
-                        });
-
+                            },
+                        );
                     }
-                    Location::Translocator(
-                        Translocator { 
-                            side: vsmap_lib::locations::TranslocatorSide::Exit,
-                            name: _,
-                            pos: _,
-                            other_id: _
-                        }
-                    ) => {
-
-                    }
+                    Location::Translocator(Translocator {
+                        side: vsmap_lib::locations::TranslocatorSide::Exit,
+                        name: _,
+                        pos: _,
+                        other_id: _,
+                    }) => {}
                     _ => {
                         self.draw_standard_marker(
                             id,
@@ -198,7 +237,7 @@ impl Viewer {
                 }
 
                 // Updated hovered
-                let world_rect_size = 20.0 / self.zoom;
+
                 let current_world = self.camera.screen_to_world(self.last_mouse);
                 if (current_world.x > x - world_rect_size / 2.0)
                     && (current_world.x < x + world_rect_size / 2.0)

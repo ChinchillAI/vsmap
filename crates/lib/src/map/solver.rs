@@ -1,8 +1,9 @@
 use std::collections::HashMap;
+use glam::IVec2;
 
 use crate::{
     locations::Location,
-    measurements::{Relative, Vector},
+    measurements::{Relative},
 };
 
 pub fn solve(raw: HashMap<String, Location>) -> HashMap<String, Location> {
@@ -38,12 +39,12 @@ pub fn solve(raw: HashMap<String, Location>) -> HashMap<String, Location> {
                             Relative::Distance(_distance) => {}
                             Relative::Gradient(gradient) => {
                                 let mut nlocation = olocation.clone();
-                                let extrapolation = Vector {
-                                    x: (gradient.east.pow(2) - gradient.west.pow(2))
+                                let extrapolation = IVec2::new(
+                                    (gradient.east.pow(2) - gradient.west.pow(2))
                                         / (4 * gradient.step),
-                                    z: (gradient.north.pow(2) - gradient.south.pow(2))
+                                    (gradient.north.pow(2) - gradient.south.pow(2))
                                         / (4 * gradient.step),
-                                };
+                                );
                                 nlocation.set_absolute(absolute - extrapolation);
                                 solved.insert(oid.clone(), nlocation.clone());
                                 println!("solved {oid} via forward gradient");
@@ -99,7 +100,7 @@ pub fn solve(raw: HashMap<String, Location>) -> HashMap<String, Location> {
                                         };
 
                                         // distance from p0 to p1
-                                        let d = (p1 - p0).magnitude();
+                                        let d = (p1 - p0).as_vec2().length();
 
                                         // distance from p0 to p2
                                         let a = ((kgradient.center.pow(2) as f32)
@@ -111,56 +112,48 @@ pub fn solve(raw: HashMap<String, Location>) -> HashMap<String, Location> {
 
                                         // p2 - the point on the chord of the intersection and the
                                         // vector between p0 and p1
-                                        let p2 = p0
-                                            + (Vector {
-                                                x: a as i32,
-                                                z: a as i32,
-                                            } * (p1 - p0))
-                                                / Vector {
-                                                    x: d as i32,
-                                                    z: d as i32,
-                                                };
+                                        let p2 = p0.as_vec2() + ((p1 - p0).as_vec2() * a) / d;
 
                                         // height from p2 to the actual intersection points
                                         let h =
                                             ((kgradient.center.pow(2) as f32) - a.powi(2)).sqrt();
 
-                                        let x3a = (p2.x as f32) + (h * ((p1.z - p0.z) as f32) / d);
-                                        let z3a = (p2.z as f32) - (h * ((p1.x - p0.x) as f32) / d);
+                                        let x3a = p2.x + (h * ((p1.y - p0.y) as f32) / d);
+                                        let z3a = p2.y - (h * ((p1.x - p0.x) as f32) / d);
 
-                                        let x3b = (p2.x as f32) - (h * ((p1.z - p0.z) as f32) / d);
-                                        let z3b = (p2.z as f32) + (h * ((p1.x - p0.x) as f32) / d);
+                                        let x3b = p2.x - (h * ((p1.y - p0.y) as f32) / d);
+                                        let z3b = p2.y + (h * ((p1.x - p0.x) as f32) / d);
 
                                         println!("solved {id} via traingulation with gradient");
                                         println!("interesection 1 at {x3a}, {z3a}");
                                         println!("interesection 2 at {x3b}, {z3b}");
 
-                                        let extrapolation = Vector {
-                                            x: -(gradient.east.pow(2) - gradient.west.pow(2))
+                                        let extrapolation = IVec2::new(
+                                             -(gradient.east.pow(2) - gradient.west.pow(2))
                                                 / (4 * gradient.step),
-                                            z: -(gradient.north.pow(2) - gradient.south.pow(2))
+                                            -(gradient.north.pow(2) - gradient.south.pow(2))
                                                 / (4 * gradient.step),
-                                        };
+                                        );
                                         let estimate = p1 - extrapolation;
 
                                         // 2. Determine which intersection is closer to the estimate
                                         let dist_a = ((x3a - estimate.x as f32).powi(2)
-                                            + (z3a - estimate.z as f32).powi(2))
+                                            + (z3a - estimate.y as f32).powi(2))
                                         .sqrt();
                                         let dist_b = ((x3b - estimate.x as f32).powi(2)
-                                            + (z3b - estimate.z as f32).powi(2))
+                                            + (z3b - estimate.y as f32).powi(2))
                                         .sqrt();
 
                                         let final_pos = if dist_a < dist_b {
-                                            Vector {
-                                                x: x3a.round() as i32,
-                                                z: z3a.round() as i32,
-                                            }
+                                            IVec2::new(
+                                                x3a.round() as i32,
+                                                z3a.round() as i32,
+                                            )
                                         } else {
-                                            Vector {
-                                                x: x3b.round() as i32,
-                                                z: z3b.round() as i32,
-                                            }
+                                            IVec2::new(
+                                                x3b.round() as i32,
+                                                z3b.round() as i32,
+                                            )
                                         };
 
                                         // 3. Update the solved map
@@ -171,7 +164,7 @@ pub fn solve(raw: HashMap<String, Location>) -> HashMap<String, Location> {
 
                                         println!(
                                             "  Chosen intersection: {}, {}",
-                                            final_pos.x, final_pos.z
+                                            final_pos.x, final_pos.y
                                         );
                                     }
                                     None => {

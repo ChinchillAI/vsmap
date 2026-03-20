@@ -13,8 +13,9 @@ pub use crate::locations::{
 use std::collections::HashMap;
 
 use serde::{Deserialize, Serialize};
+use glam::IVec2;
 
-use crate::measurements::{Relative, Vector};
+use crate::measurements::{Relative};
 
 macro_rules! define_location {
     (
@@ -26,7 +27,7 @@ macro_rules! define_location {
         }
 
         impl Location {
-            pub fn set_absolute(&mut self, p: Vector) {
+            pub fn set_absolute(&mut self, p: IVec2) {
                 match self {
                     $(Self::$location(l) => {
                         l.pos.absolute = Some(p);
@@ -34,7 +35,7 @@ macro_rules! define_location {
                 }
             }
 
-            pub fn get_absolute(&self) -> Option<Vector> {
+            pub fn get_absolute(&self) -> Option<IVec2> {
                 match self {
                     $(Self::$location(l) => l.pos.absolute,)+
                 }

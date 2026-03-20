@@ -1,7 +1,8 @@
+use glam::IVec2;
+
 use crate::{
     locations::{Location, TranslocatorSide},
     map::Map,
-    measurements::Vector,
 };
 
 pub trait MapRenderer {
@@ -13,7 +14,7 @@ pub trait MapRenderer {
 }
 
 pub fn render<R: MapRenderer>(map: &Map, renderer: &mut R) {
-    let coords: Vec<Vector> = map
+    let coords: Vec<IVec2> = map
         .locations
         .values()
         .filter_map(|loc| loc.get_absolute())
@@ -26,8 +27,8 @@ pub fn render<R: MapRenderer>(map: &Map, renderer: &mut R) {
 
     let min_x = coords.iter().map(|v| v.x).min().unwrap() - 50;
     let max_x = coords.iter().map(|v| v.x).max().unwrap() + 50;
-    let min_z = coords.iter().map(|v| -v.z).min().unwrap() - 50;
-    let max_z = coords.iter().map(|v| -v.z).max().unwrap() + 50;
+    let min_z = coords.iter().map(|v| -v.y).min().unwrap() - 50;
+    let max_z = coords.iter().map(|v| -v.y).max().unwrap() + 50;
     let width = max_x - min_x;
     let height = max_z - min_z;
 
@@ -59,16 +60,16 @@ pub fn render<R: MapRenderer>(map: &Map, renderer: &mut R) {
                                 continue;
                             };
 
-                            renderer.draw_line(p1.x, -p1.z, p2.x, -p2.z, "blue");
+                            renderer.draw_line(p1.x, -p1.y, p2.x, -p2.y, "blue");
                         }
                     }
                     _ => {}
                 }
             }
 
-            renderer.draw_circle(pos.x, -pos.z, 4, "red");
+            renderer.draw_circle(pos.x, -pos.y, 4, "red");
 
-            renderer.draw_text(pos.x + 6, -pos.z + 4, &name, "black");
+            renderer.draw_text(pos.x + 6, -pos.y + 4, &name, "black");
         }
     }
 
