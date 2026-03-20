@@ -3,10 +3,11 @@ name = "Archive"
 pos.absolute = [0, 0]
 pos.lazaret = [9241, 9245, 9238, 9238, 9245, 5]
 
-[[ruin]]
+[[translocator]]
 name = "new-translocator"
-pos.archive = [ 7314, 7315, 7313, 7309, 7319, 5]
-pos.lazaret = [16114, 16116, 16111, 16109, 16118, 5]
+enter.rigby = [ -50, 0 ]
+exit.archive = [ 7314, 7315, 7313, 7309, 7319, 5]
+exit.lazaret = [16114, 16116, 16111, 16109, 16118, 5]
 
 [[trader]]
 name = "Izel-3"
@@ -16,6 +17,15 @@ seal = "Gate"
 bed = "Hay"
 pos.archive = [7558, 7560, 7557, 7554, 7563, 5]
 pos.lazaret = [16493, 16496, 16490, 16489, 16497, 5]
+
+[[trader]]
+name = "Yoksolo-5"
+facing = "North"
+trade = "Agriculture"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [8439, 8441, 8437, 8435, 8444, 5]
+pos.lazaret = [17426, 17429, 17423, 17422, 17430, 5]
 
 [[ruin]]
 name = "Lazaret"

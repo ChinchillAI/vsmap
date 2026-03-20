@@ -25,6 +25,14 @@ struct Viewer {
 }
 
 
+fn window_conf() -> Conf {
+    Conf {
+        window_title: "VSMap".to_owned(),
+        sample_count: 32, // This enables 4x MSAA globally! (Smooths out jagged edges)
+        ..Default::default()
+    }
+}
+
 
 impl Default for Viewer {
     fn default() -> Self {
@@ -95,7 +103,7 @@ impl Viewer {
         let y = pos.y as f32;
 
         let world_rect_size = style.rect_size / self.zoom;
-        let world_text_scale = style.text_size / 64.0 / self.zoom;
+        let world_text_scale = style.text_size / 32.0 / self.zoom;
         let world_padding = style.padding / self.zoom;
 
         draw_rectangle(
@@ -106,13 +114,13 @@ impl Viewer {
             style.color,
         );
 
-        let center = get_text_center(id, None, 64, -world_text_scale, 0.0);
+        let center = get_text_center(id, None, 32, -world_text_scale, 0.0);
         draw_text_ex(
             id,
             x + center.x,
             y + (world_rect_size / 2.0) + world_padding,
             TextParams {
-                font_size: 64,
+                font_size: 32,
                 font_scale: -world_text_scale, // Flip vertically
                 font_scale_aspect: -1.0,       // Correct horizontal flip caused by vertical flip
                 color: BLACK,
@@ -137,7 +145,7 @@ impl Viewer {
                 let x = pos.x as f32;
                 let y = pos.y as f32;
                 let world_rect_size = 20.0 / self.zoom;
-                let world_text_scale = 16.0 / 64.0 / self.zoom;
+                let world_text_scale = 16.0 / 128.0 / self.zoom;
                 let world_padding = 5.0 / self.zoom;
 
                 match location {
@@ -170,7 +178,7 @@ impl Viewer {
 
                         draw_line(x, y, other_x, other_y, 5.0 / self.zoom, PURPLE);
                         let text = "TRANSLOCATOR";
-                        let center = get_text_center(text, None, 64, -world_text_scale, 0.0);
+                        let center = get_text_center(text, None, 128, -world_text_scale, 0.0);
 
                         let dir = (other_pos - pos).as_vec2().normalize();
                         let normal = Vec2::new(-dir.y, dir.x);
@@ -185,7 +193,7 @@ impl Viewer {
                             (other_x - x) / 2.0 + x + offset.x,
                             (other_y - y) / 2.0 + y + offset.y,
                             TextParams {
-                                font_size: 64,
+                                font_size: 128,
                                 font_scale: -world_text_scale, // Flip vertically
                                 font_scale_aspect: -1.0, // Correct horizontal flip caused by vertical flip
                                 color: PURPLE,
@@ -250,21 +258,27 @@ impl Viewer {
         }
 
         set_default_camera();
-        draw_text(
+        draw_text_ex(
             &format!(
                 "Target: {:.0}, {:.0} | Zoom: {:.4}\nSelected: {:?} | Hovered: {:?}",
                 self.target.x, self.target.y, self.zoom, self.selected, self.hovered
             ),
             10.0,
             20.0,
-            20.0,
-            BLACK,
+        TextParams {
+                font_size: 32,
+                font_scale: 16.0 / 32.0, // Flip vertically
+                font_scale_aspect: 1.0,       // Correct horizontal flip caused by vertical flip
+                color: BLACK,
+                ..Default::default()
+            },
         );
     }
 }
 
-#[macroquad::main("VSMap")]
+#[macroquad::main(window_conf)]
 async fn main() {
+    set_default_filter_mode(FilterMode::Linear);
     let mut viewer = Viewer::default();
 
     loop {
