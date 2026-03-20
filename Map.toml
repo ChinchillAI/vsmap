@@ -8,6 +8,15 @@ name = "new-translocator"
 pos.archive = [ 7314, 7315, 7313, 7309, 7319, 5]
 pos.lazaret = [16114, 16116, 16111, 16109, 16118, 5]
 
+[[trader]]
+name = "Izel-3"
+facing = "North"
+trade = "Clothing"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [7558, 7560, 7557, 7554, 7563, 5]
+pos.lazaret = [16493, 16496, 16490, 16489, 16497, 5]
+
 [[ruin]]
 name = "Lazaret"
 
