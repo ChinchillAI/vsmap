@@ -10,6 +10,20 @@ exit.archive = [ 7314, 7315, 7313, 7309, 7319, 5]
 exit.lazaret = [16114, 16116, 16111, 16109, 16118, 5]
 
 [[trader]]
+name = "Filipe"
+facing = "North"
+trade = "Furniture"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [992, 996,988,994, 989, 5]
+pos.lazaret = [9453, 9457, 9450, 9450, 9457, 5]
+
+[[ruin]]
+name = "Black Stone Ruins"
+pos.archive = [2604, 2609, 2599, 2606, 2603, 5]
+pos.lazaret = [10597, 10601, 10593, 10594, 10600, 5]
+
+[[trader]]
 name = "Izel-3"
 facing = "North"
 trade = "Clothing"
