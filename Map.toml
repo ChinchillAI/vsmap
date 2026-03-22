@@ -18,6 +18,23 @@ bed = "Hay"
 pos.archive = [992, 996,988,994, 989, 5]
 pos.lazaret = [9453, 9457, 9450, 9450, 9457, 5]
 
+[[trader]]
+name = "Bedwyr"
+facing = "East"
+trade = "Clothing"
+seal = "Gate"
+bed = "Wooden"
+
+[[trader]]
+name = "Erik"
+facing = "North"
+trade = "Artisan"
+bed = "None"
+seal = "Gate"
+pos.archive = [5373, 5370, 5376, 5369, 5377, 5]
+pos.lazaret = [11747, 11748, 11746, 11743, 11752, 5]
+
+
 [[ruin]]
 name = "Black Stone Ruins"
 pos.archive = [2604, 2609, 2599, 2606, 2603, 5]

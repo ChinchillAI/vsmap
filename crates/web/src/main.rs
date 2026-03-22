@@ -164,6 +164,7 @@ impl Viewer {
                         if id == "archive" {
                             draw_circle_lines(x, y, 4000.0, 2.0 / self.zoom, RED);
                             draw_circle_lines(x, y, 6000.0, 2.0 / self.zoom, RED);
+                            draw_circle_lines(x, y, 16000.0, 2.0 / self.zoom, GREEN);
                         } else if id == "lazaret" {
                             draw_circle_lines(x, y, 10000.0, 2.0 / self.zoom, RED);
                             draw_circle_lines(x, y, 15000.0, 2.0 / self.zoom, RED);
