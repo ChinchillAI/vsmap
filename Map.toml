@@ -26,6 +26,30 @@ seal = "Gate"
 bed = "Wooden"
 
 [[trader]]
+name = "Edel"
+facing = "South"
+trade = "TreasureHunter"
+seal = "Gate"
+bed = "Wooden"
+pos.archive = [2929, 2930, 2928, 2924, 2934, 5]
+pos.lazaret = [11908, 11911, 11905, 11904, 11912, 5]
+
+
+[[trader]]
+name = "Ahanu"
+facing = "West"
+trade = "Clothing"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [2403, 2402, 2404, 2398, 2408, 5]
+pos.lazaret = [10896, 10899, 10894, 10892, 10900, 5]
+
+[[ruin]]
+name = "another-translocator"
+pos.archive = [3790, 3787, 3792, 3785, 3794, 5]
+pos.lazaret = [11335, 11337, 11333, 11331, 11340, 5]
+
+[[trader]]
 name = "Erik"
 facing = "North"
 trade = "Artisan"
