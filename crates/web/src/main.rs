@@ -196,7 +196,6 @@ impl Viewer {
                             offset = -offset;
                         }
 
-                        println!("{offset}");
                         draw_text_ex(
                             "TRANSLOCATOR",
                             (other_x - x) / 2.0 + x + offset.x,

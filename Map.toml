@@ -4,7 +4,7 @@ pos.absolute = [0, 0]
 pos.lazaret = [9241, 9245, 9238, 9238, 9245, 5]
 
 [[translocator]]
-name = "new-translocator"
+name = "Translocator4"
 enter.rigby = [ -50, 0 ]
 exit.archive = [ 7314, 7315, 7313, 7309, 7319, 5]
 exit.lazaret = [16114, 16116, 16111, 16109, 16118, 5]
@@ -44,10 +44,22 @@ bed = "Hay"
 pos.archive = [2403, 2402, 2404, 2398, 2408, 5]
 pos.lazaret = [10896, 10899, 10894, 10892, 10900, 5]
 
-[[ruin]]
-name = "another-translocator"
-pos.archive = [3790, 3787, 3792, 3785, 3794, 5]
-pos.lazaret = [11335, 11337, 11333, 11331, 11340, 5]
+[[trader]]
+name = "TinkerNew"
+facing = "West"
+trade = "BuildingMaterials"
+seal = "Door"
+bed = "Wooden"
+pos.archive = [ 4873, 4877, 4869, 4870, 4876, 5]
+pos.lazaret = [ 14058, 14062, 14055, 14056, 14062, 5]
+
+[[translocator]]
+name = "Translocator3"
+exit.archive = [3790, 3787, 3792, 3785, 3794, 5]
+exit.lazaret = [11335, 11337, 11333, 11331, 11340, 5]
+enter.tinkernew = [0, 50]
+
+
 
 [[trader]]
 name = "Erik"

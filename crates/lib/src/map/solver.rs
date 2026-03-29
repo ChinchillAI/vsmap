@@ -101,12 +101,15 @@ pub fn solve(raw: HashMap<String, Location>) -> HashMap<String, Location> {
 
                                         // distance from p0 to p1
                                         let d = (p1 - p0).as_vec2().length();
+                                        println!("{id}: d = {d}");
 
                                         // distance from p0 to p2
                                         let a = ((kgradient.center.pow(2) as f32)
                                             - (gradient.center.pow(2) as f32)
                                             + d.powi(2))
                                             / (2. * d);
+
+                                        println!("{id}: a = {a}");
                                         // distance from p2 to p1
                                         let _b = d - a;
 
@@ -115,14 +118,18 @@ pub fn solve(raw: HashMap<String, Location>) -> HashMap<String, Location> {
                                         let p2 = p0.as_vec2() + ((p1 - p0).as_vec2() * a) / d;
 
                                         // height from p2 to the actual intersection points
-                                        let h =
-                                            ((kgradient.center.pow(2) as f32) - a.powi(2)).sqrt();
+                                        let ha = ((kgradient.center as f64).powf(2.0) - (a.powi(2) as f64)).max(0.0);
 
-                                        let x3a = p2.x + (h * ((p1.y - p0.y) as f32) / d);
-                                        let z3a = p2.y - (h * ((p1.x - p0.x) as f32) / d);
+                                        println!("{id}: ha = {ha}");
+                                        let h = ha.sqrt();
 
-                                        let x3b = p2.x - (h * ((p1.y - p0.y) as f32) / d);
-                                        let z3b = p2.y + (h * ((p1.x - p0.x) as f32) / d);
+                                        println!("{id}: h = {h}");
+
+                                        let x3a = p2.x + ((h as f32) * ((p1.y - p0.y) as f32) / d);
+                                        let z3a = p2.y - ((h as f32) * ((p1.x - p0.x) as f32) / d);
+
+                                        let x3b = p2.x - ((h as f32) * ((p1.y - p0.y) as f32) / d);
+                                        let z3b = p2.y + ((h as f32) * ((p1.x - p0.x) as f32) / d);
 
                                         println!("solved {id} via traingulation with gradient");
                                         println!("interesection 1 at {x3a}, {z3a}");
