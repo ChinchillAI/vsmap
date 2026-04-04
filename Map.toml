@@ -9,6 +9,53 @@ enter.rigby = [ -50, 0 ]
 exit.archive = [ 7314, 7315, 7313, 7309, 7319, 5]
 exit.lazaret = [16114, 16116, 16111, 16109, 16118, 5]
 
+[[translocator]]
+name = "Translocator5"
+enter.tinkernew = [0, -50 ]
+exit.karl = [ 100, 50]
+
+[[trader]]
+name = "Karl"
+facing = "East"
+trade = "SurvivalGoods"
+seal = "Gate"
+bed = "None"
+pos.archive = [8621, 8626, 8616, 8620, 8622, 5]
+pos.lazaret = [17008, 17012, 17003, 17005, 17010, 5]
+
+
+[[trader]]
+name = "AhanuBlarg"
+facing = "East"
+trade = "Clothing"
+seal = "Door"
+bed = "Hay"
+pos.archive = [13442, 13446, 13438, 13440, 13444, 5]
+pos.lazaret = [22446, 22450, 22442, 22444, 22449, 5]
+
+[[trader]]
+name = "Shift"
+facing = "East"
+trade = "TreasureHunter"
+seal = "Door"
+bed = "Wooden"
+pos.archive = [12957, 12961, 12953, 12954, 12960, 5]
+pos.lazaret = [22007, 22011, 22003, 22004, 22010, 5]
+
+[[ruin]]
+name = "AlmostKilledBear"
+pos.archive = [12949, 12953, 12944, 12946, 12951, 5]
+pos.lazaret = [21957, 21961, 21953, 21954, 21960, 5]
+
+[[ruin]]
+name = "BaseSellis"
+pos.lazaret = [8369, 8367, 8371, 8364, 8374, 5]
+
+[[translocator]]
+name = "Translocator15"
+enter.karl = [100, 50]
+exit.shift = [50, 50]
+
 [[trader]]
 name = "Filipe"
 facing = "North"

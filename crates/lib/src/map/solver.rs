@@ -175,7 +175,37 @@ pub fn solve(raw: HashMap<String, Location>) -> HashMap<String, Location> {
                                         );
                                     }
                                     None => {
-                                        known_distance = Some((oid, relative, olocation.clone()));
+                                            if location.get_pos().iter().len() > 1 {
+                                                println!("stored {oid} for {id} triagnualtion");
+                                                known_distance = Some((oid, relative, olocation.clone()));
+                                            } else {
+                                                if let Some(olocation) = solved.get(&oid) {
+                                                    let Some(absolute) = olocation.get_absolute() else {
+                                                        panic!("How did we get here?");
+                                                    };
+                                                    match relative {
+                                                        Relative::Vector(vector) => {
+                                                            let mut nlocation = location.clone();
+                                                            nlocation.set_absolute(absolute + vector);
+                                                            solved.insert(id.clone(), nlocation.clone());
+                                                            println!("solved {id} via single forward vector");
+                                                        }
+                                                        Relative::Distance(_distance) => {}
+                                                        Relative::Gradient(gradient) => {
+                                                            let mut nlocation = location.clone();
+                                                            let extrapolation = IVec2::new(
+                                                                (gradient.east.pow(2) - gradient.west.pow(2))
+                                                                    / (4 * gradient.step),
+                                                                (gradient.north.pow(2) - gradient.south.pow(2))
+                                                                    / (4 * gradient.step),
+                                                            );
+                                                            nlocation.set_absolute(absolute + extrapolation);
+                                                            solved.insert(id.clone(), nlocation.clone());
+                                                            println!("solved {id} via single forward gradient");
+                                                        }
+                                                    }
+                                                }
+                                            }
                                     }
                                     _ => {
                                         panic!("bad known distance");
