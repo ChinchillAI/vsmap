@@ -25,6 +25,59 @@ pos.lazaret = [17008, 17012, 17003, 17005, 17010, 5]
 
 
 [[trader]]
+name = "Aram"
+facing = "East"
+trade = "Commodities"
+seal = "Door"
+bed = "Wooden"
+pos.archive = [8126, 8121, 8131, 8124, 8127, 5]
+pos.lazaret = [8891, 8890, 8892, 8886, 8896, 5]
+
+
+[[trader]]
+name = "Temper"
+facing = "South"
+trade = "Artisan"
+seal = "Gate"
+bed = "Wooden"
+pos.archive = [7650, 7645, 7655, 7649, 7651, 5]
+pos.lazaret = [8310, 8309, 8311, 8305, 8315, 5]
+
+[[trader]]
+name = "Vlad"
+facing = "West"
+trade = "Furniture"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [7011, 7006, 7017, 7011, 7013, 5]
+pos.lazaret = [8255, 8255, 8256, 8250, 8260, 5]
+
+
+[[trader]]
+name = "Miguel"
+facing = "North"
+trade = "BuildingMaterials"
+seal = "Gate"
+bed = "None"
+pos.archive = [6495, 6490, 6500, 6493, 6496, 5]
+pos.lazaret = [8434, 8434, 8434, 8429, 8440, 5]
+
+[[trader]]
+name = "Tybal22"
+facing = "East"
+trade = "SurvivalGoods"
+seal = "Gate"
+bed = "None"
+pos.archive = [5525, 5520, 5531, 5526, 5525, 5]
+pos.lazaret = [6629, 6630, 6629, 6625, 6634, 5]
+
+
+[[ruin]]
+name = "BaseFir"
+pos.archive = [5433, 5428, 5439, 5434, 5433, 5]
+pos.lazaret = [6299, 6299, 6298, 6293, 6304, 5]
+
+[[trader]]
 name = "AhanuBlarg"
 facing = "East"
 trade = "Clothing"
@@ -49,7 +102,8 @@ pos.lazaret = [21957, 21961, 21953, 21954, 21960, 5]
 
 [[ruin]]
 name = "BaseSellis"
-pos.lazaret = [8369, 8367, 8371, 8364, 8374, 5]
+pos.lazaret = [8370, 8368, 8371, 8365, 8373, 5]
+pos.archive = [9136, 9132, 9140, 9135, 9136, 5]
 
 [[translocator]]
 name = "Translocator15"
