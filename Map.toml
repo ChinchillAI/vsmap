@@ -25,6 +25,45 @@ pos.lazaret = [17008, 17012, 17003, 17005, 17010, 5]
 
 
 [[trader]]
+name = "Stretch"
+facing = "South"
+trade = "Commodities"
+seal = "Gate"
+bed = "Hay"
+pos.archive = [5611, 5607, 5616, 5609, 5613, 5]
+pos.lazaret = [9574, 9574, 9573, 9569, 9579, 5]
+
+
+[[trader]]
+name = "Vlad-24"
+facing = "North"
+trade = "Furniture"
+seal = "Gate"
+bed = "None"
+pos.archive = [6251, 6246, 6255, 6248, 6253, 5]
+pos.lazaret = [10311, 10311, 10310, 10306, 10316, 5]
+
+
+[[trader]]
+name = "Stefan-22"
+facing = "North"
+trade = "Commodities"
+seal = "Gate"
+bed = "Wooden"
+pos.archive = [5782, 5778, 5787, 5780, 5786, 5]
+pos.lazaret = [10634, 10635, 10634, 10629, 10639, 5]
+
+
+[[trader]]
+name = "Loon-44"
+facing = "West"
+trade = "SurvivalGoods"
+seal = "Gate"
+bed = "None"
+pos.archive = [4174, 4172, 4176, 4170, 4178, 5]
+pos.lazaret = [11449, 11451, 11447, 11445, 11454, 5]
+
+[[trader]]
 name = "Aram"
 facing = "East"
 trade = "Commodities"
