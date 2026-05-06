@@ -24,6 +24,43 @@ pos.archive = [8621, 8626, 8616, 8620, 8622, 5]
 pos.lazaret = [17008, 17012, 17003, 17005, 17010, 5]
 
 
+[[ruin]]
+name = "TranslocatorMid"
+pos.archive = [7025, 7027, 7024, 7021, 7030, 5]
+pos.lazaret = [16029, 16032, 16026, 16025, 16033, 5]
+
+[[ruin]]
+name = "Trans2"
+pos.archive = [7645, 7646, 7644, 7640, 7650, 5]
+pos.lazaret = [16298, 16300, 16295, 16294, 16302, 5]
+
+[[trader]]
+name = "RaBul2"
+facing = "East"
+trade = "Furniture"
+seal = "Gate"
+bed = "Wooden"
+pos.archive = [7764, 7759, 7769, 7762, 7765, 5]
+pos.lazaret = [9383, 9382, 9383, 9378, 9388, 5]
+
+[[trader]]
+name = "Leo42"
+facing = "East"
+trade = "Commodities"
+seal = "Gate"
+bed = "None"
+pos.archive = [9131, 9126, 9136, 9130, 9132, 5]
+pos.lazaret = [9247, 9245, 9248, 9242, 9252, 5]
+
+[[trader]]
+name = "Rigby444"
+facing = "North"
+trade = "Luxuries"
+seal = "Gate"
+bed = "Wooden"
+pos.archive = [9755, 9750, 9760, 9754, 9756, 5]
+pos.lazaret = [9483, 9481, 9485, 9478, 9488, 5]
+
 [[trader]]
 name = "Stretch"
 facing = "South"
